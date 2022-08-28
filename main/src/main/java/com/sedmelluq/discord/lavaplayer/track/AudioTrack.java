@@ -49,6 +49,11 @@ public interface AudioTrack extends AudioItem {
   void setMarker(TrackMarker marker);
 
   /**
+   * @return TrackMarker previously set
+   */
+  TrackMarker getMarker();
+
+  /**
    * @return Duration of the track in milliseconds
    */
   long getDuration();

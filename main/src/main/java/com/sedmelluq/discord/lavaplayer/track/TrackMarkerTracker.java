@@ -31,6 +31,10 @@ public class TrackMarkerTracker {
     }
   }
 
+  public TrackMarker get() {
+    return current.get();
+  }
+
   /**
    * Remove the current marker.
    * @return The removed marker.

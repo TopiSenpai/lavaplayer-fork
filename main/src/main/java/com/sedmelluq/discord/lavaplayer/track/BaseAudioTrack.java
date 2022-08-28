@@ -87,6 +87,11 @@ public abstract class BaseAudioTrack implements InternalAudioTrack {
   }
 
   @Override
+  public TrackMarker getMarker() {
+    return getActiveExecutor().getMarker();
+  }
+
+  @Override
   public AudioFrame provide() {
     return getActiveExecutor().provide();
   }

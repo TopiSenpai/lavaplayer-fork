@@ -67,6 +67,11 @@ public class PrimordialAudioTrackExecutor implements AudioTrackExecutor {
   }
 
   @Override
+  public TrackMarker getMarker() {
+    return markerTracker.get();
+  }
+
+  @Override
   public boolean failedBeforeLoad() {
     return false;
   }

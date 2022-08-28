@@ -47,6 +47,12 @@ public interface AudioTrackExecutor extends AudioFrameProvider {
   void setMarker(TrackMarker marker);
 
   /**
+   * get track position marker.
+   * @return TrackMarker previously set.
+   */
+  TrackMarker getMarker();
+
+  /**
    * @return True if this track threw an exception before it provided any audio.
    */
   boolean failedBeforeLoad();
