@@ -31,6 +31,10 @@ public class TrackMarkerTracker {
     }
   }
 
+  /**
+   * Get track marker.
+   * @return TrackMarker previously set.
+   */
   public TrackMarker get() {
     return current.get();
   }

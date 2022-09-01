@@ -49,7 +49,7 @@ public interface AudioTrack extends AudioItem {
   void setMarker(TrackMarker marker);
 
   /**
-   * @return TrackMarker previously set
+   * @return TrackMarker previously set.
    */
   TrackMarker getMarker();
 
