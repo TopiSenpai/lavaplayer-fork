@@ -21,8 +21,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeConstants.BROWSE_URL;
-import static com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeConstants.WATCH_URL_PREFIX;
+import static com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeConstants.*;
 import static com.sedmelluq.discord.lavaplayer.tools.FriendlyException.Severity.COMMON;
 
 public class DefaultYoutubePlaylistLoader implements YoutubePlaylistLoader {
@@ -83,6 +82,8 @@ public class DefaultYoutubePlaylistLoader implements YoutubePlaylistLoader {
             .index(0)
             .get("playlistVideoListRenderer");
 
+    String playlistId = playlistVideoList.get("playlistId").text();
+
     List<AudioTrack> tracks = new ArrayList<>();
     String continuationsToken = extractPlaylistTracks(playlistVideoList, tracks, trackFactory);
     int loadCount = 0;
@@ -108,7 +109,13 @@ public class DefaultYoutubePlaylistLoader implements YoutubePlaylistLoader {
       }
     }
 
-    return new BasicAudioPlaylist(playlistName, tracks, findSelectedTrack(tracks, selectedVideoId), false);
+    AudioTrack selectedTrack = findSelectedTrack(tracks, selectedVideoId);
+    selectedTrack = Optional.ofNullable(selectedTrack).orElse(tracks.get(0));
+    String artworkUrl = selectedTrack.getInfo().artworkUrl;
+    String author = selectedTrack.getInfo().author;
+    String playlistUrl = PLAYLIST_URL_PREFIX + playlistId;
+
+    return new BasicAudioPlaylist(playlistName, author, "playlist", playlistUrl, artworkUrl, tracks, selectedTrack, false);
   }
 
   private String findErrorAlert(JsonBrowser jsonResponse) {

@@ -67,4 +67,5 @@ public class YoutubeConstants {
 
     // Utility constants
     static final String WATCH_URL_PREFIX = YOUTUBE_ORIGIN + "/watch?v=";
+    static final String PLAYLIST_URL_PREFIX = YOUTUBE_ORIGIN + "/playlist?list=";
 }
