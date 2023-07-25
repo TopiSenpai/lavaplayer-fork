@@ -147,6 +147,7 @@ public class YoutubeMpegStreamAudioTrack extends MpegAudioTrack {
       // EMPTY_RETRY_THRESHOLD_MS is the maximum time between the end of the first attempt and the beginning of the last
       // attempt, to avoid retry being skipped due to response coming slowly.
       if (iterationStart - waitStart >= EMPTY_RETRY_THRESHOLD_MS) {
+        log.debug("Stream ended without receiving a segment, assuming end of stream.");
         state.finished = true;
         break;
       } else {
