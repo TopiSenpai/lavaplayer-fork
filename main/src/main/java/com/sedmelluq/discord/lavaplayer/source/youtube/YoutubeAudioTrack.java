@@ -25,6 +25,8 @@ import static com.sedmelluq.discord.lavaplayer.tools.Units.CONTENT_LENGTH_UNKNOW
 public class YoutubeAudioTrack extends DelegatedAudioTrack {
   private static final Logger log = LoggerFactory.getLogger(YoutubeAudioTrack.class);
 
+  private static final int MAX_403_RETRIES = 3;
+
   private final YoutubeAudioSourceManager sourceManager;
 
   /**
@@ -38,7 +40,22 @@ public class YoutubeAudioTrack extends DelegatedAudioTrack {
   }
 
   @Override
-  public void process(LocalAudioTrackExecutor localExecutor) throws Exception {
+  public void process(LocalAudioTrackExecutor executor) throws Exception {
+    for(int i = MAX_403_RETRIES; i > 0; i--) {
+      try {
+        process0(executor);
+        return;
+      } catch(RuntimeException e) {
+        if(i > 1 && executor.getPosition() == 0 && e.getMessage().equals("Not success status code: 403")) {
+          log.warn("Encountered 403 while loading initial YouTube content. Retrying...");
+        } else {
+          throw e;
+        }
+      }
+    }
+  }
+
+  public void process0(LocalAudioTrackExecutor localExecutor) throws Exception {
     try (HttpInterface httpInterface = sourceManager.getHttpInterface()) {
       FormatWithUrl format = loadBestFormatWithUrl(httpInterface);
 
